@@ -1,0 +1,6 @@
+@BiletFest_HostAddress = http://localhost:5044
+
+GET {{BiletFest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
