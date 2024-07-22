@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiletFest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240719153023_AddUniqueCodeToOrderTicket")]
-    partial class AddUniqueCodeToOrderTicket
+    [Migration("20240719165605_NewDB")]
+    partial class NewDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,11 +222,13 @@ namespace BiletFest.Migrations
 
             modelBuilder.Entity("BiletFest.Models.Ticket", b =>
                 {
-                    b.HasOne("BiletFest.Models.Festival", null)
+                    b.HasOne("BiletFest.Models.Festival", "Festival")
                         .WithMany("Tickets")
                         .HasForeignKey("FestivalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Festival");
                 });
 
             modelBuilder.Entity("BiletFest.Models.Festival", b =>

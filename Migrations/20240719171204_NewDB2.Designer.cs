@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiletFest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240719010309_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240719171204_NewDB2")]
+    partial class NewDB2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,6 +125,10 @@ namespace BiletFest.Migrations
                     b.Property<int>("TicketId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UniqueCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("OrderTicketId");
 
                     b.HasIndex("OrderId");
@@ -153,6 +157,9 @@ namespace BiletFest.Migrations
                     b.Property<int>("FestivalID")
                         .HasColumnType("int");
 
+                    b.Property<int>("FestivalID1")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -164,6 +171,8 @@ namespace BiletFest.Migrations
                     b.HasKey("TicketID");
 
                     b.HasIndex("FestivalID");
+
+                    b.HasIndex("FestivalID1");
 
                     b.ToTable("Tickets");
                 });
@@ -223,6 +232,14 @@ namespace BiletFest.Migrations
                         .HasForeignKey("FestivalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BiletFest.Models.Festival", "Festival")
+                        .WithMany()
+                        .HasForeignKey("FestivalID1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Festival");
                 });
 
             modelBuilder.Entity("BiletFest.Models.Festival", b =>

@@ -102,6 +102,12 @@ namespace BiletFest.Services
             return await _context.Users.FirstOrDefaultAsync(u => u.UserID == id);
         }
 
+        public void MakeUserAdmin(int id)
+        {
+            User foundUser = _context.Users.FirstOrDefault(u => u.UserID == id);
+            foundUser.Role = "admin";
+            _context.SaveChanges();
+        }
         public async Task<IEnumerable<Festival>> GetFestivalsAsync()
         {
             return await _context.Festivals.ToListAsync();
@@ -208,6 +214,11 @@ namespace BiletFest.Services
                 await transaction.RollbackAsync();
                 return false;
             }
+        }
+
+        public OrderTicket GetTicket(string code)
+        {
+            return _context.OrderTickets.Include(t => t.Ticket).FirstOrDefault(c => c.UniqueCode == code);
         }
 
     }

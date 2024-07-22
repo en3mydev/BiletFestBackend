@@ -154,6 +154,9 @@ namespace BiletFest.Migrations
                     b.Property<int>("FestivalID")
                         .HasColumnType("int");
 
+                    b.Property<int>("FestivalID1")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -165,6 +168,8 @@ namespace BiletFest.Migrations
                     b.HasKey("TicketID");
 
                     b.HasIndex("FestivalID");
+
+                    b.HasIndex("FestivalID1");
 
                     b.ToTable("Tickets");
                 });
@@ -224,6 +229,14 @@ namespace BiletFest.Migrations
                         .HasForeignKey("FestivalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BiletFest.Models.Festival", "Festival")
+                        .WithMany()
+                        .HasForeignKey("FestivalID1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Festival");
                 });
 
             modelBuilder.Entity("BiletFest.Models.Festival", b =>

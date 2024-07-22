@@ -100,5 +100,12 @@ namespace BiletFest.Controllers
             HttpContext.Session.Remove("UserID");
             return Ok(new { message = "Logout successful." });
         }
+
+        [HttpPut("MakeUserAdmin")]
+        public IActionResult Put(int id)
+        {
+            _biletFestServices.MakeUserAdmin(id);
+            return Ok();
+        }
     }
 }

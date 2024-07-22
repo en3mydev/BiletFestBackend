@@ -22,10 +22,10 @@ namespace BiletFest.Data
                 .HasMaxLength(500); // sau orice dimensiune necesară
 
             modelBuilder.Entity<Festival>()
-                .HasMany(f => f.Tickets)
-                .WithOne()
-                .HasForeignKey(t => t.FestivalID)
-                .OnDelete(DeleteBehavior.Cascade);
+                    .HasMany(f => f.Tickets)
+                    .WithOne()
+                    .HasForeignKey(t => t.FestivalID)
+                    .OnDelete(DeleteBehavior.Cascade);
 
             // Configurare pentru Order
             modelBuilder.Entity<Order>()

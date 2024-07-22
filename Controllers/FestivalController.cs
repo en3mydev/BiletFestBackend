@@ -71,8 +71,9 @@ namespace BiletFest.Controllers
             }
 
             _biletFestServices.AddFestival(festival);
-            return Ok();
+            return CreatedAtAction(nameof(GetFestivalById), new { id = festival.FestivalID }, festival);
         }
+
 
 
         [HttpPost("AddTickets")]
@@ -112,6 +113,19 @@ namespace BiletFest.Controllers
                 return NotFound();
             }
             return Ok(deleted);
+        }
+
+        [HttpGet("GetTicketByCode/{code}")]
+        public IActionResult GetTicketByCode(string code)
+        {
+            var ticket = _biletFestServices.GetTicket(code);
+
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(ticket);
         }
     }
 }

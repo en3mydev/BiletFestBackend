@@ -65,7 +65,6 @@ namespace BiletFest.Models
 
         public string Description { get; set; }
 
-
     }
 
     public class Order
@@ -92,7 +91,6 @@ namespace BiletFest.Models
         public int OrderId { get; set; }
         public int TicketId { get; set; }
         public string UniqueCode { get; set; }
-
 
         public Order Order { get; set; }
 
