@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BiletFest.Migrations
 {
     /// <inheritdoc />
-    public partial class NewDB : Migration
+    public partial class NewUpdateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,8 +41,8 @@ namespace BiletFest.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DiscountedPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    DiscountedPrice = table.Column<double>(type: "float", nullable: true),
                     HasVoucher = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -87,7 +87,7 @@ namespace BiletFest.Migrations
                         column: x => x.FestivalID,
                         principalTable: "Festivals",
                         principalColumn: "FestivalID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,6 +117,26 @@ namespace BiletFest.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TicketCodes",
+                columns: table => new
+                {
+                    TicketCodeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TicketID = table.Column<int>(type: "int", nullable: false),
+                    Codes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketCodes", x => x.TicketCodeId);
+                    table.ForeignKey(
+                        name: "FK_TicketCodes_Tickets_TicketID",
+                        column: x => x.TicketID,
+                        principalTable: "Tickets",
+                        principalColumn: "TicketID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_OrderTickets_OrderId",
                 table: "OrderTickets",
@@ -126,6 +146,11 @@ namespace BiletFest.Migrations
                 name: "IX_OrderTickets_TicketId",
                 table: "OrderTickets",
                 column: "TicketId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketCodes_TicketID",
+                table: "TicketCodes",
+                column: "TicketID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_FestivalID",
@@ -138,6 +163,9 @@ namespace BiletFest.Migrations
         {
             migrationBuilder.DropTable(
                 name: "OrderTickets");
+
+            migrationBuilder.DropTable(
+                name: "TicketCodes");
 
             migrationBuilder.DropTable(
                 name: "Users");

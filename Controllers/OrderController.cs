@@ -25,31 +25,39 @@ public class OrderController : ControllerBase
     [HttpPost("CreateOrder")]
     public async Task<IActionResult> CreateOrder([FromBody] OrderRequest orderRequest)
     {
-        var order = new Order
+        try
         {
-            FirstName = orderRequest.FirstName,
-            LastName = orderRequest.LastName,
-            Email = orderRequest.Email,
-            Phone = orderRequest.Phone,
-            TotalPrice = orderRequest.TotalPrice,
-            DiscountedPrice = orderRequest.DiscountedPrice,
-            HasVoucher = orderRequest.HasVoucher,
-            CreatedAt = DateTime.Now
-        };
+            var order = new Order
+            {
+                FirstName = orderRequest.FirstName,
+                LastName = orderRequest.LastName,
+                Email = orderRequest.Email,
+                Phone = orderRequest.Phone,
+                TotalPrice = orderRequest.TotalPrice,
+                DiscountedPrice = orderRequest.DiscountedPrice,
+                HasVoucher = orderRequest.HasVoucher,
+                CreatedAt = DateTime.Now
+            };
 
-        var ticketCodes = orderRequest.TicketCodes.ToDictionary(
-            t => t.TicketId,
-            t => t.Codes
-        );
+            // Mapping ticketCodes
+            var ticketCodes = orderRequest.TicketCodes.ToDictionary(
+                t => t.TicketID,
+                t => t.Codes
+            );
 
-        var result = await _biletFestServices.CreateOrder(order, ticketCodes);
-        if (result)
-        {
-            return Ok();
+            var result = await _biletFestServices.CreateOrder(order, ticketCodes);
+            if (result)
+            {
+                return Ok(new { message = "Order created successfully" });
+            }
+            else
+            {
+                return BadRequest(new { message = "Failed to create order" });
+            }
         }
-        else
+        catch (Exception ex)
         {
-            return BadRequest();
+            return StatusCode(500, new { message = "An internal server error occurred.", detail = ex.Message });
         }
     }
 

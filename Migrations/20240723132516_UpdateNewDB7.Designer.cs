@@ -4,6 +4,7 @@ using BiletFest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiletFest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240723132516_UpdateNewDB7")]
+    partial class UpdateNewDB7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,6 +172,28 @@ namespace BiletFest.Migrations
                     b.ToTable("Tickets");
                 });
 
+            modelBuilder.Entity("BiletFest.Models.TicketCode", b =>
+                {
+                    b.Property<int>("TicketCodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketCodeId"));
+
+                    b.Property<string>("Codes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TicketID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TicketCodeId");
+
+                    b.HasIndex("TicketID");
+
+                    b.ToTable("TicketCodes");
+                });
+
             modelBuilder.Entity("BiletFest.Models.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -219,11 +244,24 @@ namespace BiletFest.Migrations
 
             modelBuilder.Entity("BiletFest.Models.Ticket", b =>
                 {
-                    b.HasOne("BiletFest.Models.Festival", null)
+                    b.HasOne("BiletFest.Models.Festival", "Festival")
                         .WithMany("Tickets")
                         .HasForeignKey("FestivalID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Festival");
+                });
+
+            modelBuilder.Entity("BiletFest.Models.TicketCode", b =>
+                {
+                    b.HasOne("BiletFest.Models.Ticket", "Ticket")
+                        .WithMany("TicketCodes")
+                        .HasForeignKey("TicketID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("BiletFest.Models.Festival", b =>
@@ -234,6 +272,11 @@ namespace BiletFest.Migrations
             modelBuilder.Entity("BiletFest.Models.Order", b =>
                 {
                     b.Navigation("OrderTickets");
+                });
+
+            modelBuilder.Entity("BiletFest.Models.Ticket", b =>
+                {
+                    b.Navigation("TicketCodes");
                 });
 #pragma warning restore 612, 618
         }

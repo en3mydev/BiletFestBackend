@@ -50,7 +50,6 @@ namespace BiletFest.Models
     public class Ticket
     {
         public int TicketID { get; set; }
-
         public int FestivalID { get; set; }
 
         [Required]
@@ -58,7 +57,7 @@ namespace BiletFest.Models
         public string TicketType { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         public int AvailableQuantity { get; set; }
@@ -66,6 +65,7 @@ namespace BiletFest.Models
         public string Description { get; set; }
 
     }
+
 
     public class Order
     {
@@ -77,8 +77,8 @@ namespace BiletFest.Models
         public string Email { get; set; }
         [Required]
         public string Phone { get; set; }
-        public decimal TotalPrice { get; set; }
-        public decimal? DiscountedPrice { get; set; }
+        public double TotalPrice { get; set; }
+        public double? DiscountedPrice { get; set; }
         public bool HasVoucher { get; set; }
         public DateTime CreatedAt { get; set; }
 
@@ -91,7 +91,6 @@ namespace BiletFest.Models
         public int OrderId { get; set; }
         public int TicketId { get; set; }
         public string UniqueCode { get; set; }
-
         public Order Order { get; set; }
 
         public Ticket Ticket { get; set; }

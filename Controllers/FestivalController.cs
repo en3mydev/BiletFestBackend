@@ -108,7 +108,7 @@ namespace BiletFest.Controllers
         public IActionResult DeleteFestival(int id)
         {
             var deleted = _biletFestServices.DeleteFestival(id);
-            if(!deleted)
+            if (!deleted)
             {
                 return NotFound();
             }
