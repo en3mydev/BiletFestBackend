@@ -22,6 +22,13 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
+    [HttpGet("GetOrderByEmail/{email}")]
+    public async Task<IActionResult> GetOrdersByEmail(string email)
+    {
+        var orders = await _biletFestServices.GetOrdersByEmail(email);
+        return Ok(orders);
+    }
+
     [HttpPost("CreateOrder")]
     public async Task<IActionResult> CreateOrder([FromBody] OrderRequest orderRequest)
     {

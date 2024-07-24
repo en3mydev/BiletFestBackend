@@ -222,5 +222,14 @@ namespace BiletFest.Services
             return _context.OrderTickets.Include(t => t.Ticket).FirstOrDefault(c => c.UniqueCode == code);
         }
 
+        public async Task<IEnumerable<Order>> GetOrdersByEmail(string email)
+        {
+            return await _context.Orders
+                .Where(e => e.Email == email)
+                .Include(o => o.OrderTickets)
+                    .ThenInclude(ot => ot.Ticket)
+                .ToListAsync();
+
+        }
     }
 }

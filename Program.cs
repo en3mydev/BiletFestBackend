@@ -74,10 +74,12 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseCors("AllowLocalhost3000");
+
+
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseCors("AllowLocalhost3000");
 
         app.MapControllers();
 
