@@ -4,6 +4,7 @@ using BiletFest.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiletFest.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240724141327_UpdateDatabaseSchemaUser")]
+    partial class UpdateDatabaseSchemaUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,26 +203,6 @@ namespace BiletFest.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("BiletFest.Models.Voucher", b =>
-                {
-                    b.Property<int>("VoucherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VoucherId"));
-
-                    b.Property<string>("VoucherCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VoucherDiscount")
-                        .HasColumnType("int");
-
-                    b.HasKey("VoucherId");
-
-                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("BiletFest.Models.OrderTicket", b =>

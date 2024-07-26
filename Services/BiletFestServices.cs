@@ -24,7 +24,7 @@ namespace BiletFest.Services
             return _context.Users.ToList();
         }
 
-        public async Task<bool> CreateUser(string password, string email, string fullName, string role = "User")
+        public async Task<bool> CreateUser(string password, string email, string fullName, string phone = "40", string role = "User")
         {
             if (_context.Users.Any(u => u.Email == email))
             {
@@ -51,6 +51,7 @@ namespace BiletFest.Services
                 PasswordHash = $"{hashedPassword}:{saltBase64}",
                 Email = email,
                 FullName = fullName,
+                Phone = phone,
                 Role = role
             };
 
@@ -231,5 +232,30 @@ namespace BiletFest.Services
                 .ToListAsync();
 
         }
+
+        public void AddVoucher(Voucher voucher)
+        {
+            _context.Vouchers.Add(voucher);
+            _context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Voucher>> GetVouchersAsync()
+        {
+            return await _context.Vouchers.ToListAsync();
+        }
+
+        public Voucher GetVoucherByCode(string code)
+        {
+            return _context.Vouchers.FirstOrDefault(c => c.VoucherCode == code);
+        }
+
+        public void UpdateVoucher (int id,  Voucher voucher2)
+        {
+            Voucher foundVoucher = _context.Vouchers.FirstOrDefault(x => x.VoucherId == id);
+            _context.Vouchers.Remove(foundVoucher);
+            _context.Vouchers.Add(voucher2);
+            _context.SaveChanges();
+        }
+
     }
 }

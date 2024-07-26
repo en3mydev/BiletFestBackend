@@ -69,4 +69,38 @@ public class OrderController : ControllerBase
     }
 
 
+    [HttpPost("AddVoucher")]
+    public IActionResult Post(Voucher newVoucher)
+    {
+        _biletFestServices.AddVoucher(newVoucher);
+        return Ok();
+    }
+
+    [HttpGet("GetAllVouchers")]
+    public async Task<IActionResult> GetAllVouchers()
+    {
+        var vouchers = await _biletFestServices.GetVouchersAsync();
+        return Ok(vouchers);
+    }
+
+    [HttpGet("GetVoucher/{code}")]
+    public IActionResult GetVoucher(string code)
+    {
+        var voucher = _biletFestServices.GetVoucherByCode(code);
+
+        if (voucher == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(voucher);
+    }
+
+    [HttpPut("UpdateVoucher")]
+    public IActionResult Put(int id, Voucher newVoucher)
+    {
+        _biletFestServices.UpdateVoucher(id, newVoucher);
+        return Ok();
+    }
+
 }

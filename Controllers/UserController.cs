@@ -30,7 +30,6 @@ namespace BiletFest.Controllers
             return _biletFestServices.GetAll();
         }
 
-        [Authorize]
         [HttpGet("get-user")]
         public async Task<IActionResult> GetUser()
         {
@@ -107,5 +106,6 @@ namespace BiletFest.Controllers
             _biletFestServices.MakeUserAdmin(id);
             return Ok();
         }
+
     }
 }

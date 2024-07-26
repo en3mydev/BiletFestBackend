@@ -17,6 +17,8 @@ namespace BiletFest.Models
 
         public string FullName { get; set; }
 
+        public string Phone { get; set; }
+
         [Required]
         public string Role { get; set; }
     }
@@ -96,6 +98,14 @@ namespace BiletFest.Models
         public Ticket Ticket { get; set; }
     }
 
+    public class Voucher
+    {
+        public int VoucherId { get; set; }
+        public string VoucherCode { get; set; }
+        public int VoucherDiscount { get; set; }
+
+    }
+
 
     public class LoginRequest
     {
@@ -108,4 +118,10 @@ namespace BiletFest.Models
         public string Email { get; set; }
         public string FullName { get; set; }
     }
+
+    public class UpdatePhoneRequest
+    {
+        public string Phone { get; set; }
+    }
+
 }
